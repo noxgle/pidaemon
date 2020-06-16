@@ -1,2 +1,2 @@
 # pidaemon
-Daemon umożliwia uruchamianie zaplanowanych zadań za pomocą API. Może uruchamiac inne skrypty lub zmieniać stan pinów o określonych porach.
+Daemon allows you to run scheduled tasks using the API. It can run other scripts or change the state of pins at certain times.
