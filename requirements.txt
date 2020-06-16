@@ -1,0 +1,5 @@
+uwsgi
+schedule
+Flask
+requests
+RPi.GPIO

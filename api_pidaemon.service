@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve API for PiDaemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/opt/pidaemon
+Environment="PATH=/opt/pidaemon/venv/bin"
+ExecStart=/opt/pidaemon/venv/bin/uwsgi --ini api_pidaemon.ini
+
+[Install]
+WantedBy=multi-user.target
