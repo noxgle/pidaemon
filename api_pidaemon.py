@@ -14,6 +14,13 @@ def return_api(data, status):
     resp.status_code = status
     return resp
 
+@app.route('/api/<id_device>/system/info', methods=['GET'])
+def get_raspberrypi_info(id_device):
+    if get_id_device() == id_device:
+        cpuinfo = subprocess.getoutput('/bin/cat /proc/cpuinfo')
+        return return_api({'cpuinfo': cpuinfo}, 200)
+    logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
+    return return_api('Bad id device', 404)
 
 @app.route('/api/<id_device>/system/time', methods=['GET'])
 def api_system_info_time(id_device):
