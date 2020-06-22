@@ -352,10 +352,6 @@ class FirstRun:
         self.c.execute(f"INSERT INTO system_info VALUES (null, 'general', 'id_device', '{si['id']}')")
         self.c.execute(f"INSERT INTO system_info VALUES (null, 'system', 'wait_for_ntp_sync', 'True')")
         self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'is_configured', 'True')")
-        self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'hardware', '')")
-        self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'revision', '')")
-        self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'serial', '')")
-        self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'model', '')")
         self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'gpio_setwarnings', 'True')")
         self.c.execute(f"INSERT INTO system_info VALUES (null, 'raspberrypi', 'gpio_setmode', 'board')")
 
@@ -683,22 +679,6 @@ class PiGpio:
                                     set_pin_status(pin_int, input_status)
                     else:
                         logging.warning(f"PiGpio: pin {pin} is disabled")
-
-    def autoconf(self):
-        try:
-            with open('/sys/firmware/devicetree/base/model') as f:
-                model = f.read()
-        except Exception as e:
-            logging.warning(f"PiGpio: can't find the pi raspberry version, {e}")
-        else:
-            logging.info(f"PiGpio: model {model}")
-            conn = create_connection(self.dbname)
-            cur = conn.cursor()
-            cur.execute("UPDATE system_info SET value = ? WHERE module_name='raspberrypi' and name='model'", (model,))
-            conn.commit()
-            conn.close()
-        finally:
-            f.close()
 
 
 class SystemdHandler(logging.Handler):
