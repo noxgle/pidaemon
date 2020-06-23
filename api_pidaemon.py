@@ -14,7 +14,7 @@ def return_api(data, status):
     resp.status_code = status
     return resp
 
-@app.route('/api/<id_device>/system/info', methods=['GET'])
+@app.route('/api/<id_device>/system/piinfo', methods=['GET'])
 def get_raspberrypi_info(id_device):
     if get_id_device() == id_device:
         cpuinfo = subprocess.getoutput('/bin/cat /proc/cpuinfo')
