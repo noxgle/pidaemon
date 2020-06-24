@@ -173,6 +173,11 @@ def api_scheduler_list(id_device):
 def api_scheduler_id(id_device, id):
     if get_id_device() == id_device:
         job_info = get_picron_info(id, False)
+        module_parm=job_info['module_parm']
+        gpio_output=gpio_output_to_api(module_parm)
+        job_info['pin']=gpio_output['pin']
+        job_info['val'] = gpio_output['val']
+        del job_info['module_parm']
         logging.info(f"Api: api_scheduler_id: {job_info}")
         return return_api(job_info, 200)
     else:
