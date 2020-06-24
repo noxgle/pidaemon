@@ -33,6 +33,17 @@ def create_connection(db_file):
     return conn
 
 
+def gpio_output_to_api(gpio):
+    gpio_output = gpio['GPIO'][1]
+    for pin in gpio_output:
+        val = gpio_output[pin]
+    return {'pin': pin, 'val': val}
+
+
+def gpio_output_from_api(module_name, module_parms, pin, pin_val):
+    return {module_name: [module_parms, {pin: pin_val}]}
+
+
 def get_id_device():
     conn = create_connection(DB_NAME)
     cur = conn.cursor()
@@ -193,7 +204,8 @@ def add_picron_job(name, schedule_name, schedule_parm, module_name, module_parms
     if python_module == 1:
         if module_name == 'GPIO':
             # {'GPIO': ['GPIO.output', {pin: output}]}
-            module = {module_name: [module_parms, {pin: pin_val}]}
+            # module = {module_name: [module_parms, {pin: pin_val}]}
+            module = gpio_output_from_api(module_name, module_parms, pin, pin_val)
             cur.execute('INSERT INTO picron VALUES (null, ?, ?, ?, ?, ?, ?, ?)',
                         (name, schedule_name, schedule_parm, module_name, json.dumps(module), python_module, enabled))
     elif python_module == 0:
