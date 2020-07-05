@@ -156,9 +156,27 @@ def api_gpio_disable(id_device, pin):
         set_pin_enabled(pin, 0)
         return return_api('OK', 200)
     else:
-        logging.warning(f"Api: api_gpio_enable: bad id_device {id_device}")
+        logging.warning(f"Api: api_gpio_disable: bad id_device {id_device}")
         return return_api('Bad id device', 404)
 
+@app.route('/api/<id_device>/gpio/name/<int:pin>', methods=['PUT'])
+def api_gpio_name(id_device, pin):
+    if get_id_device() == id_device:
+        try:
+            data = request.get_json()
+        except Exception as e:
+            return return_api('Data is not json', 404)
+        else:
+            try:
+                name = data['name']
+            except Exception as e:
+                return return_api('Bad key', 404)
+            else:
+                set_pin_name(pin,name)
+                return return_api('OK', 200)
+    else:
+        logging.warning(f"Api: api_gpio_output: bad id_device {id_device}")
+        return return_api('Bad id device', 404)
 
 @app.route('/api/<id_device>/scheduler', methods=['GET'])
 def api_scheduler_list(id_device):

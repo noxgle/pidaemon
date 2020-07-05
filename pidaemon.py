@@ -148,6 +148,12 @@ def set_pin_conf(pin, pin_conf):
     conn.commit()
     conn.close()
 
+def set_pin_name(pin, name):
+    conn = create_connection(DB_NAME)
+    cur = conn.cursor()
+    cur.execute('UPDATE gpio_pin SET name = ? WHERE pin_number=?', (name, pin))
+    conn.commit()
+    conn.close()
 
 def get_gpio_setwarnings():
     conn = create_connection(DB_NAME)
