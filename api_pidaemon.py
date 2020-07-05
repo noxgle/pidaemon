@@ -14,6 +14,7 @@ def return_api(data, status):
     resp.status_code = status
     return resp
 
+
 @app.route('/api/<id_device>/system/piinfo', methods=['GET'])
 def get_raspberrypi_info(id_device):
     if get_id_device() == id_device:
@@ -21,6 +22,7 @@ def get_raspberrypi_info(id_device):
         return return_api({'cpuinfo': cpuinfo}, 200)
     logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
     return return_api('Bad id device', 404)
+
 
 @app.route('/api/<id_device>/system/time', methods=['GET'])
 def api_system_info_time(id_device):
@@ -159,6 +161,7 @@ def api_gpio_disable(id_device, pin):
         logging.warning(f"Api: api_gpio_disable: bad id_device {id_device}")
         return return_api('Bad id device', 404)
 
+
 @app.route('/api/<id_device>/gpio/name/<int:pin>', methods=['PUT'])
 def api_gpio_name(id_device, pin):
     if get_id_device() == id_device:
@@ -172,11 +175,12 @@ def api_gpio_name(id_device, pin):
             except Exception as e:
                 return return_api('Bad key', 404)
             else:
-                set_pin_name(pin,name)
+                set_pin_name(pin, name)
                 return return_api('OK', 200)
     else:
         logging.warning(f"Api: api_gpio_name: bad id_device {id_device}")
         return return_api('Bad id device', 404)
+
 
 @app.route('/api/<id_device>/scheduler', methods=['GET'])
 def api_scheduler_list(id_device):
@@ -191,9 +195,9 @@ def api_scheduler_list(id_device):
 def api_scheduler_id(id_device, id):
     if get_id_device() == id_device:
         job_info = get_picron_info(id, False)
-        module_parm=json.loads(job_info['module_parm'])
-        gpio_output=gpio_output_to_api(module_parm)
-        job_info['pin']=gpio_output['pin']
+        module_parm = json.loads(job_info['module_parm'])
+        gpio_output = gpio_output_to_api(module_parm)
+        job_info['pin'] = gpio_output['pin']
         job_info['val'] = gpio_output['val']
         del job_info['module_parm']
         logging.info(f"Api: api_scheduler_id: {job_info}")
@@ -323,7 +327,7 @@ def api_deamon(id_device, daemon):
         except Exception as e:
             return return_api('Data is not json', 404)
         else:
-            daemon=daemon.upper()
+            daemon = daemon.upper()
             if daemon in data:
                 if daemon == 'PICRON':
                     if data[daemon] == 'RESTART':
@@ -367,6 +371,5 @@ def api_deamon(id_device, daemon):
 
     return return_api('Bad command', 404)
 
-
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 #    app.run(debug=False, host='0.0.0.0')
