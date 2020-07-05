@@ -23,7 +23,6 @@ def get_raspberrypi_info(id_device):
         time_sync = return_time_status()
         now = datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
         return return_api({'cpuinfo': cpuinfo, 'uptime': uptime, 'time': dt_string, 'time_sync': time_sync}, 200)
     logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
     return return_api('Bad id device', 404)
