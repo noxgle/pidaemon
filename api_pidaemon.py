@@ -175,7 +175,7 @@ def api_gpio_name(id_device, pin):
                 set_pin_name(pin,name)
                 return return_api('OK', 200)
     else:
-        logging.warning(f"Api: api_gpio_output: bad id_device {id_device}")
+        logging.warning(f"Api: api_gpio_name: bad id_device {id_device}")
         return return_api('Bad id device', 404)
 
 @app.route('/api/<id_device>/scheduler', methods=['GET'])
