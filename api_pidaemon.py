@@ -19,22 +19,14 @@ def return_api(data, status):
 def get_raspberrypi_info(id_device):
     if get_id_device() == id_device:
         cpuinfo = subprocess.getoutput('/bin/cat /proc/cpuinfo')
-        return return_api({'cpuinfo': cpuinfo}, 200)
-    logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
-    return return_api('Bad id device', 404)
-
-
-@app.route('/api/<id_device>/system/time', methods=['GET'])
-def api_system_info_time(id_device):
-    if get_id_device() == id_device:
+        uptime = subprocess.getoutput('/usr/bin/uptime')
         time_sync = return_time_status()
         now = datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-        return return_api({'time_sync': time_sync, 'time': dt_string}, 200)
-    else:
-        logging.warning(f"Api: api_system_info_time: bad id_device {id_device}")
-        return return_api('Bad id device', 404)
 
+        return return_api({'cpuinfo': cpuinfo, 'uptime': uptime, 'time': dt_string, 'time_sync': time_sync}, 200)
+    logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
+    return return_api('Bad id device', 404)
 
 @app.route('/api/<id_device>/system/info', methods=['GET'])
 def api_system_info_id_list(id_device):
