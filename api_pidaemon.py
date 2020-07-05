@@ -147,6 +147,7 @@ def api_gpio_enable(id_device, pin):
 def api_gpio_disable(id_device, pin):
     if get_id_device() == id_device:
         set_pin_enabled(pin, 0)
+        set_pin_status(pin,'1')
         return return_api('OK', 200)
     else:
         logging.warning(f"Api: api_gpio_disable: bad id_device {id_device}")
