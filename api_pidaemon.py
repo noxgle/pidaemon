@@ -250,11 +250,13 @@ def api_scheduler_script_add(id_device):
                 module_parms = data['module_parms']
                 python_module = 0
                 enabled = data['enabled']
+                pin = None
+                pin_val = None
             except Exception as e:
                 return return_api('Bad json data', 404)
             else:
                 new_id = add_picron_job(name, schedule_name, schedule_parm, module_name, module_parms, python_module,
-                                        enabled)
+                                        enabled,pin,pin_val)
 
                 cmd = [id_device, 'PICRON', {'PICRON': ['LOCAL_SYNC']}]
                 msg = pideamon_talk(cmd)
