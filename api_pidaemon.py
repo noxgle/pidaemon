@@ -248,7 +248,7 @@ def api_scheduler_script_add(id_device):
                 schedule_parm = data['schedule_parm']
                 module_name = data['module_name']
                 module_parms = data['module_parms']
-                python_module = data['python_module']
+                python_module = 0
                 enabled = data['enabled']
             except Exception as e:
                 return return_api('Bad json data', 404)
