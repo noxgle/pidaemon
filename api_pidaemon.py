@@ -187,13 +187,16 @@ def api_scheduler_list(id_device):
 def api_scheduler_id(id_device, id):
     if get_id_device() == id_device:
         job_info = get_picron_info(id, False)
-        module_parm = json.loads(job_info['module_parm'])
-        gpio_output = gpio_output_to_api(module_parm)
-        job_info['pin'] = gpio_output['pin']
-        job_info['val'] = gpio_output['val']
-        del job_info['module_parm']
-        logging.info(f"Api: api_scheduler_id: {job_info}")
-        return return_api(job_info, 200)
+        if job_info['python_module'] == 1:
+            module_parm = json.loads(job_info['module_parm'])
+            gpio_output = gpio_output_to_api(module_parm)
+            job_info['pin'] = gpio_output['pin']
+            job_info['val'] = gpio_output['val']
+            del job_info['module_parm']
+            logging.info(f"Api: api_scheduler_id: {job_info}")
+            return return_api(job_info, 200)
+        elif job_info['python_module'] == 0:
+            return return_api(job_info, 200)
     else:
         logging.warning(f"Api: api_scheduler_id: bad id_device {id_device}")
         return return_api('Bad id device', 404)
@@ -250,8 +253,8 @@ def api_scheduler_script_add(id_device):
                 module_parms = data['module_parms']
                 python_module = 0
                 enabled = data['enabled']
-                pin = None
-                pin_val = None
+                pin = ''
+                pin_val = ''
             except Exception as e:
                 return return_api('Bad json data', 404)
             else:
