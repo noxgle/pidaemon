@@ -486,25 +486,28 @@ class PiCron(threading.Thread):
             module_parm = row[5]
             python_module = row[6]
 
-            if schedule_name == 'seconds':
-                schedule.every(int(schedule_parm)).seconds.do(self.job, module_name, module_parm, python_module)
-            elif schedule_name == 'second.at':
-                schedule.every().second.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
+            try:
+                if schedule_name == 'seconds':
+                    schedule.every(int(schedule_parm)).seconds.do(self.job, module_name, module_parm, python_module)
 
-            elif schedule_name == 'minutes':
-                schedule.every(int(schedule_parm)).minutes.do(self.job, module_name, module_parm, python_module)
-            elif schedule_name == 'minute.at':
-                schedule.every().minute.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'minutes':
+                    schedule.every(int(schedule_parm)).minutes.do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'minute.at':
+                    schedule.every().minute.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
 
-            elif schedule_name == 'hours':
-                schedule.every(int(schedule_parm)).hours.do(self.job, module_name, module_parm, python_module)
-            elif schedule_name == 'hour.at':
-                schedule.every().hour.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'hours':
+                    schedule.every(int(schedule_parm)).hours.do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'hour.at':
+                    schedule.every().hour.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
 
-            elif schedule_name == 'days':
-                schedule.every(int(schedule_parm)).days.do(self.job, module_name, module_parm, python_module)
-            elif schedule_name == 'day.at':
-                schedule.every().day.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'days':
+                    schedule.every(int(schedule_parm)).days.do(self.job, module_name, module_parm, python_module)
+                elif schedule_name == 'day.at':
+                    schedule.every().day.at(schedule_parm).do(self.job, module_name, module_parm, python_module)
+
+            except Exception as e:
+                logging.error(f'PiCron: exception: {e}')
+
 
         conn.close()
 
