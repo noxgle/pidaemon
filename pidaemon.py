@@ -555,7 +555,7 @@ class PiCron(threading.Thread):
                         elif cmd[key][0] == 'LOCAL_SYNC':
                             self.setJobs()
             else:
-                time.sleep(1)
+                time.sleep(0.1)
 
 
 class PiDeamonQueue(PiCronQueue):
