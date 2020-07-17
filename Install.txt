@@ -1,5 +1,5 @@
-Let's start:
-sudo su
+Let's start, login to PI:
+0. sudo su
 1. apt update && apt -y upgrade
 2. apt install python3-pip nginx
 3. pip3 install virtualenv
@@ -10,4 +10,4 @@ sudo su
 8. ./install_service.bash
 9. cat id.txt
 
-Save your id,you will needed for access to you Pi.
+Write down your ID, it will be needed to access your Pi via API.
