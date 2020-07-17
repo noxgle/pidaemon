@@ -1,0 +1,13 @@
+Let's start:
+sudo su
+1. apt update && apt -y upgrade
+2. apt install python3-pip nginx
+3. pip3 install virtualenv
+4. cd /opt
+5. git clone https://github.com/noxgle/pidaemon.git
+6. cd pidaemon
+7. ./createVirtEnv.bash
+8. ./install_service.bash
+9. cat id.txt
+
+Save your id,you will needed for access to you Pi.
