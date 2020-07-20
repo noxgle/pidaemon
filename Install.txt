@@ -9,5 +9,6 @@ Let's start, login to PI:
 7. ./createVirtEnv.bash
 8. ./install_service.bash
 9. cat id.txt
+10. check if all working, run venv/bin/python api_test.py
 
 Write down your ID, it will be needed to access your Pi via API.
