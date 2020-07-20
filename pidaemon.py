@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# https://www.loggly.com/blog/new-style-daemons-python/
 import logging
 import sys
 import time
@@ -12,8 +11,6 @@ import json
 import socket
 from collections import deque
 import subprocess
-from datetime import datetime
-# from flask import jsonify, request
 from app import app
 
 DB_NAME = app.config['DB_SQL']
@@ -508,7 +505,6 @@ class PiCron(threading.Thread):
             except Exception as e:
                 logging.error(f'PiCron: exception: {e}')
 
-
         conn.close()
 
     def job(self, module_name, module_parm, python_module):
@@ -705,7 +701,6 @@ class PiGpio:
 
 
 class SystemdHandler(logging.Handler):
-    # https://www.loggly.com/blog/new-style-daemons-python/
     PREFIX = {
         # EMERG <0>
         # ALERT <1>

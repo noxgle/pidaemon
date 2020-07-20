@@ -2,13 +2,6 @@ from pidaemon import *
 from flask import jsonify, request
 
 
-# API
-# https://restfulapi.net/http-methods/
-# ['ab248654-c56c-4af6-a825-e8be026ef549', 'PIDEAMON', {'GPIO': ['GPIO.setup', {'24': 'GPIO.OUT'}]}]
-# /api/ab248654-c56c-4af6-a825-e8be026ef549/pideamon/gpio/setup/24/out
-# /api/apikey/thread/module/seting1/pin/seting2
-# http://127.0.0.1:5000/api/78be65df-a7a1-4aef-8691-70cf749efc85/gpio/GPIO.setup/24/GPIO.OUT
-
 def return_api(data, status):
     resp = jsonify(data)
     resp.status_code = status
@@ -26,6 +19,7 @@ def api_raspberrypi_info(id_device):
         return return_api({'cpuinfo': cpuinfo, 'uptime': uptime, 'time': dt_string, 'time_sync': time_sync}, 200)
     logging.warning(f"Api: get_raspberrypi_info: bad id_device {id_device}")
     return return_api('Bad id device', 404)
+
 
 @app.route('/api/<id_device>/system/info', methods=['GET'])
 def api_system_info_id_list(id_device):
@@ -147,7 +141,7 @@ def api_gpio_enable(id_device, pin):
 def api_gpio_disable(id_device, pin):
     if get_id_device() == id_device:
         set_pin_enabled(pin, 0)
-        set_pin_status(pin,'1')
+        set_pin_status(pin, '1')
         return return_api('OK', 200)
     else:
         logging.warning(f"Api: api_gpio_disable: bad id_device {id_device}")
@@ -259,7 +253,7 @@ def api_scheduler_script_add(id_device):
                 return return_api('Bad json data', 404)
             else:
                 new_id = add_picron_job(name, schedule_name, schedule_parm, module_name, module_parms, python_module,
-                                        enabled,pin,pin_val)
+                                        enabled, pin, pin_val)
 
                 cmd = [id_device, 'PICRON', {'PICRON': ['LOCAL_SYNC']}]
                 msg = pideamon_talk(cmd)
@@ -367,6 +361,3 @@ def api_deamon(id_device, daemon):
         return return_api('Bad id device', 404)
 
     return return_api('Bad command', 404)
-
-# if __name__ == '__main__':
-#    app.run(debug=False, host='0.0.0.0')
