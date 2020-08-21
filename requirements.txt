@@ -3,3 +3,4 @@ schedule
 Flask
 requests
 RPi.GPIO
+#w1thermsensor
