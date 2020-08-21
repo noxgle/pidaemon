@@ -7,9 +7,16 @@ def return_api(data, status):
     resp.status_code = status
     return resp
 
-
 @app.route('/api/<id_device>/system/piinfo', methods=['GET'])
 def api_raspberrypi_info(id_device):
+    """ Get Pi info:
+        - hardware
+        - up time
+        - time and date
+
+    :param id_device:
+    :return: json (cpuinfo,uptime,time,time_sync)
+    """
     if get_id_device() == id_device:
         cpuinfo = subprocess.getoutput('/bin/cat /proc/cpuinfo')
         uptime = subprocess.getoutput('/usr/bin/uptime')
@@ -23,6 +30,11 @@ def api_raspberrypi_info(id_device):
 
 @app.route('/api/<id_device>/system/info', methods=['GET'])
 def api_system_info_id_list(id_device):
+    """ Get
+
+    :param id_device:
+    :return:
+    """
     if get_id_device() == id_device:
         return return_api(get_system_info_id_list(), 200)
     else:
